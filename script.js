@@ -8,19 +8,25 @@ const goals =[
         status:"Completed"},
     {title:"Learn a new language.",
         description:"I have always wanted to learn a new language, I have always felt being able to speak more than just my mother tongue and english would be great.",
-        status:"Not Started"},
+        status: "Not Started"},
+    {title:"Learn how to play a musical instrument.",
+        description:"I have always wanted to learn how to play a musical instrument, I have always felt being able to play an instrument would be great.",
+        status: "Not Started"}, 
 ];
 console.log(goals);
 console.log(goals.length);
 const goalList = document.querySelector("#goal-list");
 console.log(goalList);
-const title = document.createElement("h3");
-title.textContent = goals[0].title;
-goalList.appendChild(title);
-const description = document.createElement("p");
-description.textContent = goals[0].description;
-title.appendChild(description);
-const status = document.createElement("p");
-status.textContent = goals[0].status;
-title.appendChild(status);
-goalList.appendChild(title);
+for (const goal of goals) {
+    const article = document.createElement("article");
+    const title = document.createElement("h3");
+    title.textContent = goal.title;
+    article.appendChild(title);
+    const description = document.createElement("p");
+    description.textContent = goal.description;
+    article.appendChild(description);
+    const goalStatus = document.createElement("p");
+    goalStatus.textContent = "Status: " + goal.status;
+    article.appendChild(goalStatus);
+    goalList.appendChild(article);
+}
