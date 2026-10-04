@@ -19,6 +19,10 @@ Live site: https://taongasamazing.github.io/thirtybeforethirty/
 git add .
 git commit -m "WHAT HAS CHANGED"
 git push origin main
+- Adjust the version in `index.html` to avoid cache
+<link rel="stylesheet" href="style.css?v=2">
+<script src="goals.js?v=2" defer></script>
+<script src="script.js?v=2" defer></script>
 
 ## View locally
 
