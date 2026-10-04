@@ -1,35 +1,168 @@
+/* Handwritten font for headings (loaded from Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
+/* ---------- Color palette ---------- */
+/* Change a color here and it updates everywhere it's used */
+:root {
+    --paper: #fbfaf8;
+    --grid-line: #e9e6e2;
+    --ink: #1a1a1a;
+
+    --blue: #94b0dd;
+    --green: #c3e0c1;
+    --pink: #f7a9cf;
+    --yellow: #f6c64c;
+    --red: #f0603a;
+}
+
+/* ---------- Page ---------- */
 body {
-    font-family: sans-serif, Helvetica, Arial;
+    font-family: Helvetica, Arial, sans-serif;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     line-height: 1.6;
+    color: var(--ink);
+
+    /* Grid-paper background: two sets of thin lines, one vertical, one horizontal */
+    background-color: var(--paper);
+    background-image:
+        linear-gradient(var(--grid-line) 2px, transparent 2px),
+        linear-gradient(90deg, var(--grid-line) 2px, transparent 2px);
+    background-size: 40px 40px;
+}
+
+/* Decorative blobs in the corners, fixed behind the content */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    border: 3px solid var(--ink);
+    border-radius: 50%;
+    z-index: -1;
+}
+body::before {
+    width: 260px;
+    height: 260px;
+    top: -80px;
+    right: -90px;
+    background-color: var(--pink);
+}
+body::after {
+    width: 220px;
+    height: 220px;
+    bottom: -90px;
+    left: -80px;
+    background-color: var(--green);
+}
+
+/* ---------- Headings ---------- */
+h1,
+h2,
+h3 {
+    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    color: var(--ink);
+    line-height: 1.2;
 }
 h1 {
-    color: rgb(149, 48, 27);
+    font-size: 2.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
 h2 {
-    color: rgb(127, 85, 37);
+    font-size: 2rem;
 }
 h3 {
-    color: rgb(145, 115, 59);
+    font-size: 1.5rem;
+    margin-top: 0;
 }
+
 p {
-    color: rgb(82, 78, 78);
+    color: var(--ink);
 }
+
+/* ---------- Goal cards ---------- */
 #goal-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+    gap: 36px 24px; /* extra row space so the tape doesn't touch the card above */
+    padding-top: 16px;
 }
+
 article {
-    border: 2px solid #a42121;
-    padding: 20px;
-    border-radius: 5px;
+    position: relative; /* lets the tape position itself relative to the card */
+    padding: 28px 20px 20px;
+    border: 3px solid var(--ink);
+    border-radius: 4px 10px 6px 12px; /* uneven corners = hand-drawn look */
+    transition: transform 0.2s;
 }
+
+/* The strip of tape on top of each card */
+article::before {
+    content: "";
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 22px;
+    border: 3px solid var(--ink);
+    border-radius: 3px;
+}
+
+/* Cycle through 4 note colors: card 1 blue, 2 green, 3 pink, 4 yellow, then repeat */
+article:nth-child(4n + 1) {
+    background-color: var(--blue);
+    transform: rotate(-1deg);
+}
+article:nth-child(4n + 1)::before {
+    background-color: var(--yellow);
+}
+
+article:nth-child(4n + 2) {
+    background-color: var(--green);
+    transform: rotate(1deg);
+}
+article:nth-child(4n + 2)::before {
+    background-color: var(--pink);
+}
+
+article:nth-child(4n + 3) {
+    background-color: var(--pink);
+    transform: rotate(0.5deg);
+}
+article:nth-child(4n + 3)::before {
+    background-color: var(--green);
+}
+
+article:nth-child(4n + 4) {
+    background-color: var(--yellow);
+    transform: rotate(-0.7deg);
+}
+article:nth-child(4n + 4)::before {
+    background-color: var(--red);
+}
+
+/* Straighten a card when hovered */
+article:hover {
+    transform: rotate(0deg) scale(1.02);
+}
+
+/* ---------- Footer ---------- */
 footer {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 40px;
     padding: 10px;
-    background-color: #b0d6ce;
+    background-color: var(--green);
+    border: 3px solid var(--ink);
+    border-radius: 6px 12px 4px 10px;
+    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    font-size: 1.2rem;
+}
+
+/* Turn off the hover motion for people who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    article {
+        transition: none;
+    }
 }
