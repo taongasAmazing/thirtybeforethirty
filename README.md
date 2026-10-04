@@ -16,9 +16,9 @@ Live site: https://taongasamazing.github.io/thirtybeforethirty/
 - Open `goals.js` and edit the array of goals.
 - Change the title, description, status, and category text for the goal.
 - Save the file and commit the changes with this command: 
-git add
+git add .
 git commit -m "WHAT HAS CHANGED"
-git push origin main.
+git push origin main
 
 ## View locally
 
