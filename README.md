@@ -23,7 +23,7 @@ These must match exactly, including capitalization. A typo won't show an error, 
 ## Update a goal
 
 1. Open `goals.js`.
-2. Find the goal and change its `title`, `description`, `status`, or `category`.
+2. Find the goal and change its `title`, `description`, `status`, `note`, or `category`. The `note` is a short update shown under the status (leave it as `""` if there is nothing to say yet).
 
 ## Add a goal
 

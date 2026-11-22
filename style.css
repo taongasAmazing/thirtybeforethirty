@@ -13,6 +13,7 @@
     --pink: #f7a9cf;
     --yellow: #f6c64c;
     --red: #f0603a;
+    --purple: #c9b3e6;
 }
 
 /* ---------- Page ---------- */
@@ -146,6 +147,99 @@ article:nth-child(4n + 4)::before {
 /* Straighten a card when hovered */
 article:hover {
     transform: rotate(0deg) scale(1.02);
+}
+
+/* ---------- Summary box above the goal cards ---------- */
+#goal-summary {
+    margin-bottom: 40px;
+    padding: 16px 20px;
+    background-color: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 6px 12px 4px 10px;
+}
+.summary-total {
+    margin: 0 0 8px;
+    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    font-size: 1.6rem;
+}
+.summary-row h3 {
+    font-size: 1.2rem;
+    margin: 12px 0 6px;
+}
+.summary-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.summary-chip {
+    display: inline-block;
+    padding: 0 10px;
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    font-size: 1.1rem;
+    background-color: var(--blue);
+}
+
+/* One color per category */
+.summary-chip.health-wellness {
+    background-color: var(--green);
+}
+.summary-chip.money-career {
+    background-color: var(--yellow);
+}
+.summary-chip.family-community {
+    background-color: var(--pink);
+}
+.summary-chip.travel-adventure {
+    background-color: var(--blue);
+}
+.summary-chip.learning-creativity {
+    background-color: var(--purple);
+}
+.summary-chip.wild-card {
+    background-color: var(--red);
+}
+
+/* ---------- Status section (bottom of each card) ---------- */
+.status-section {
+    margin-top: 16px;
+    padding: 10px 12px;
+    background-color: var(--paper);
+    border: 2px dashed var(--ink);
+    border-radius: 6px 10px 4px 8px;
+}
+.status-section p {
+    margin: 0;
+}
+.status {
+    font-weight: bold;
+}
+.status-badge {
+    display: inline-block;
+    padding: 0 10px;
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    font-size: 1.1rem;
+    font-weight: normal;
+}
+.status-badge.not-started {
+    background-color: var(--paper);
+}
+.status-badge.in-progress {
+    background-color: var(--yellow);
+}
+.status-badge.completed {
+    background-color: var(--green);
+}
+.note {
+    margin-top: 6px !important;
+    font-size: 0.9rem;
+}
+.note.empty {
+    font-style: italic;
+    opacity: 0.6;
 }
 
 /* ---------- Footer ---------- */
