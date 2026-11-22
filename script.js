@@ -181,10 +181,10 @@ function filterGoals(field, value) {
 }
 
 
-// ---------- Countdown to my 30th birthday ----------
-// Midnight at the start of 15 February 2028, in the visitor's own time zone.
-// Months start counting at 0 in JavaScript, so February is 1.
-const birthday = new Date(2028, 1, 15);
+// ---------- Progress bar: from the day I started to my 30th birthday ----------
+// Months start counting at 0 in JavaScript, so October is 9 and February is 1.
+const startDate = new Date(2026, 9, 3); // 3 October 2026, the day I started this list
+const birthday = new Date(2028, 1, 15); // 15 February 2028, my 30th birthday
 
 // Returns a copy of a date moved forward by a number of months, e.g. 21 Nov + 2 months = 21 Jan
 function addMonths(date, monthsToAdd) {
@@ -195,20 +195,26 @@ function addMonths(date, monthsToAdd) {
 
 function updateCountdown() {
     const now = new Date();
-    let msLeft = birthday - now; // milliseconds between now and the birthday
 
     // Once the day arrives, stop counting and celebrate
-    if (msLeft <= 0) {
+    if (now >= birthday) {
         document.querySelector("#countdown").innerHTML =
-            '<p class="countdown-label">I made it to 30! 🎉</p>';
+            '<p class="progress-percent">I made it to 30! 🎉</p>';
         clearInterval(countdownTimer);
         return;
     }
 
-    const msPerSecond = 1000;
-    const msPerMinute = msPerSecond * 60;
-    const msPerHour = msPerMinute * 60;
-    const msPerDay = msPerHour * 24;
+    // ----- The bar: how much of the whole journey has passed -----
+    let percent = ((now - startDate) / (birthday - startDate)) * 100;
+    if (percent < 0) {
+        percent = 0;
+    }
+    document.querySelector("#progress-fill").style.width = percent + "%";
+    document.querySelector("#progress-percent").textContent = Math.floor(percent);
+    document.querySelector(".progress-track").setAttribute("aria-valuenow", Math.floor(percent));
+
+    // ----- Months, weeks and days left -----
+    const msPerDay = 1000 * 60 * 60 * 24;
     const msPerWeek = msPerDay * 7;
 
     // Months are different lengths, so count them on the calendar:
@@ -217,27 +223,17 @@ function updateCountdown() {
     while (addMonths(now, months + 1) <= birthday) {
         months++;
     }
-    msLeft = birthday - addMonths(now, months); // what's left after the whole months
+    let msLeft = birthday - addMonths(now, months); // what's left after the whole months
 
     const weeks = Math.floor(msLeft / msPerWeek);
     msLeft = msLeft - weeks * msPerWeek;
     const days = Math.floor(msLeft / msPerDay);
-    msLeft = msLeft - days * msPerDay;
-    const hours = Math.floor(msLeft / msPerHour);
-    msLeft = msLeft - hours * msPerHour;
-    const minutes = Math.floor(msLeft / msPerMinute);
-    msLeft = msLeft - minutes * msPerMinute;
-    const seconds = Math.floor(msLeft / msPerSecond);
 
     document.querySelector("#countdown-months").textContent = months;
     document.querySelector("#countdown-weeks").textContent = weeks;
     document.querySelector("#countdown-days").textContent = days;
-    // padStart adds a leading zero, so 7 shows as 07
-    document.querySelector("#countdown-hours").textContent = String(hours).padStart(2, "0");
-    document.querySelector("#countdown-minutes").textContent = String(minutes).padStart(2, "0");
-    document.querySelector("#countdown-seconds").textContent = String(seconds).padStart(2, "0");
 }
 
-// Update every second, and once straight away so the numbers show immediately
-const countdownTimer = setInterval(updateCountdown, 1000);
+// Check once a minute (the numbers only change slowly), and once straight away
+const countdownTimer = setInterval(updateCountdown, 60 * 1000);
 updateCountdown();
