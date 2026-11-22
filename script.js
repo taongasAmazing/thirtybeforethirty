@@ -179,3 +179,65 @@ function filterGoals(field, value) {
         filterText.textContent = "Showing " + shownCount + " " + goalWord + ": " + value + " ";
     }
 }
+
+
+// ---------- Countdown to my 30th birthday ----------
+// Midnight at the start of 15 February 2028, in the visitor's own time zone.
+// Months start counting at 0 in JavaScript, so February is 1.
+const birthday = new Date(2028, 1, 15);
+
+// Returns a copy of a date moved forward by a number of months, e.g. 21 Nov + 2 months = 21 Jan
+function addMonths(date, monthsToAdd) {
+    const newDate = new Date(date);
+    newDate.setMonth(newDate.getMonth() + monthsToAdd);
+    return newDate;
+}
+
+function updateCountdown() {
+    const now = new Date();
+    let msLeft = birthday - now; // milliseconds between now and the birthday
+
+    // Once the day arrives, stop counting and celebrate
+    if (msLeft <= 0) {
+        document.querySelector("#countdown").innerHTML =
+            '<p class="countdown-label">I made it to 30! 🎉</p>';
+        clearInterval(countdownTimer);
+        return;
+    }
+
+    const msPerSecond = 1000;
+    const msPerMinute = msPerSecond * 60;
+    const msPerHour = msPerMinute * 60;
+    const msPerDay = msPerHour * 24;
+    const msPerWeek = msPerDay * 7;
+
+    // Months are different lengths, so count them on the calendar:
+    // keep jumping forward one month from today until the next jump would pass the birthday
+    let months = 0;
+    while (addMonths(now, months + 1) <= birthday) {
+        months++;
+    }
+    msLeft = birthday - addMonths(now, months); // what's left after the whole months
+
+    const weeks = Math.floor(msLeft / msPerWeek);
+    msLeft = msLeft - weeks * msPerWeek;
+    const days = Math.floor(msLeft / msPerDay);
+    msLeft = msLeft - days * msPerDay;
+    const hours = Math.floor(msLeft / msPerHour);
+    msLeft = msLeft - hours * msPerHour;
+    const minutes = Math.floor(msLeft / msPerMinute);
+    msLeft = msLeft - minutes * msPerMinute;
+    const seconds = Math.floor(msLeft / msPerSecond);
+
+    document.querySelector("#countdown-months").textContent = months;
+    document.querySelector("#countdown-weeks").textContent = weeks;
+    document.querySelector("#countdown-days").textContent = days;
+    // padStart adds a leading zero, so 7 shows as 07
+    document.querySelector("#countdown-hours").textContent = String(hours).padStart(2, "0");
+    document.querySelector("#countdown-minutes").textContent = String(minutes).padStart(2, "0");
+    document.querySelector("#countdown-seconds").textContent = String(seconds).padStart(2, "0");
+}
+
+// Update every second, and once straight away so the numbers show immediately
+const countdownTimer = setInterval(updateCountdown, 1000);
+updateCountdown();

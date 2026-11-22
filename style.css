@@ -149,6 +149,51 @@ article:hover {
     transform: rotate(0deg) scale(1.02);
 }
 
+/* ---------- Countdown at the top of the page ---------- */
+#countdown {
+    margin: 10px 0 24px;
+    padding: 14px 18px 18px;
+    background-color: var(--yellow);
+    border: 3px solid var(--ink);
+    border-radius: 8px 4px 12px 6px;
+    transform: rotate(-0.5deg);
+    text-align: center;
+}
+.countdown-label {
+    margin: 0 0 10px;
+    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    font-size: 1.4rem;
+}
+/* 6 boxes in one row; on narrow screens, 2 rows of 3 (see the media query below) */
+.countdown-boxes {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+}
+@media (max-width: 640px) {
+    .countdown-boxes {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+.countdown-box {
+    padding: 6px 4px;
+    background-color: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 6px 10px 4px 8px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+/* The big number inside each box */
+.countdown-box span {
+    display: block;
+    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    font-size: 2.2rem;
+    line-height: 1.1;
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums; /* stops the numbers jumping around as they change */
+}
+
 /* ---------- Summary box above the goal cards ---------- */
 #goal-summary {
     margin-bottom: 40px;

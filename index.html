@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"> 
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=9">
     <script src="goals.js?v=4" defer></script>
-    <script src="script.js?v=6" defer></script>
+    <script src="script.js?v=8" defer></script>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
@@ -10,6 +10,18 @@
     </head>
     <body>
         <header>
+            <!-- Countdown to my 30th birthday. script.js fills in the numbers and updates them every second -->
+            <div id="countdown" aria-label="Countdown to 15 February 2028">
+                <p class="countdown-label">Countdown to 30: 15 February 2028</p>
+                <div class="countdown-boxes">
+                    <div class="countdown-box"><span id="countdown-months">--</span>months</div>
+                    <div class="countdown-box"><span id="countdown-weeks">--</span>weeks</div>
+                    <div class="countdown-box"><span id="countdown-days">--</span>days</div>
+                    <div class="countdown-box"><span id="countdown-hours">--</span>hours</div>
+                    <div class="countdown-box"><span id="countdown-minutes">--</span>minutes</div>
+                    <div class="countdown-box"><span id="countdown-seconds">--</span>seconds</div>
+                </div>
+            </div>
             <h1>Taonga's 30 before 30 </h1>
             <p>In honour of my upcoming 30th birthday, this website serves as a personal journal and tracker for the goals I want to achieve and the experiences 
                 I want to have before I turn 30. This list is intended to help me grow as a person and create lasting memories. As of 3 October 2026, I have 500 
