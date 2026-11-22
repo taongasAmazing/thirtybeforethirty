@@ -7,6 +7,9 @@ let goalCount = 1;
 for (const goal of goals) {
     console.log(goalCount);
     const article = document.createElement("article");
+    // Remember each card's status and category so the filters can find it later
+    article.dataset.status = goal.status;
+    article.dataset.category = goal.category;
     const title = document.createElement("h3");
     title.textContent = goalCount + ". " + goal.title;
     article.appendChild(title);
@@ -81,8 +84,16 @@ function makeSummaryRow(heading, field, values) {
     const chips = document.createElement("div");
     chips.className = "summary-chips";
     for (const value of values) {
-        const chip = document.createElement("span");
+        // A button (not a span) so it can be clicked and reached with the keyboard
+        const chip = document.createElement("button");
+        chip.type = "button";
         chip.className = "summary-chip";
+        chip.dataset.field = field;
+        chip.dataset.value = value;
+        chip.setAttribute("aria-pressed", "false");
+        chip.addEventListener("click", function () {
+            filterGoals(field, value);
+        });
         if (field === "status") {
             // Reuse the status badge colors from the cards
             chip.classList.add("status-badge", value.toLowerCase().replace(" ", "-"));
@@ -107,3 +118,64 @@ summary.appendChild(total);
 
 summary.appendChild(makeSummaryRow("By status", "status", statuses));
 summary.appendChild(makeSummaryRow("By category", "category", categories));
+
+// ---------- Filtering: click a status or category to show only those goals ----------
+// A line under the chips that says what is showing, with a button to show everything again
+const filterInfo = document.createElement("p");
+filterInfo.className = "filter-info";
+filterInfo.hidden = true;
+const filterText = document.createElement("span");
+filterInfo.appendChild(filterText);
+const showAllButton = document.createElement("button");
+showAllButton.type = "button";
+showAllButton.className = "show-all";
+showAllButton.textContent = "Show all goals";
+showAllButton.addEventListener("click", function () {
+    filterGoals(null, null);
+});
+filterInfo.appendChild(showAllButton);
+summary.appendChild(filterInfo);
+
+// Which filter is on right now (null means none, so every goal shows)
+let activeField = null;
+let activeValue = null;
+
+function filterGoals(field, value) {
+    // Clicking the chip that is already on turns the filter off
+    if (field === activeField && value === activeValue) {
+        field = null;
+        value = null;
+    }
+    activeField = field;
+    activeValue = value;
+
+    // Show or hide each card
+    let shownCount = 0;
+    for (const article of goalList.children) {
+        if (field === null || article.dataset[field] === value) {
+            article.hidden = false;
+            shownCount++;
+        } else {
+            article.hidden = true;
+        }
+    }
+
+    // Highlight the chip that is on
+    for (const chip of summary.querySelectorAll(".summary-chip")) {
+        const isActive = chip.dataset.field === field && chip.dataset.value === value;
+        chip.classList.toggle("active", isActive);
+        chip.setAttribute("aria-pressed", isActive);
+    }
+
+    // Update the "Showing..." line
+    if (field === null) {
+        filterInfo.hidden = true;
+    } else {
+        filterInfo.hidden = false;
+        let goalWord = "goals";
+        if (shownCount === 1) {
+            goalWord = "goal";
+        }
+        filterText.textContent = "Showing " + shownCount + " " + goalWord + ": " + value + " ";
+    }
+}

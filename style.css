@@ -181,6 +181,56 @@ article:hover {
     background-color: var(--blue);
 }
 
+/* The chips are buttons: make them clickable and give feedback */
+.summary-chip {
+    color: var(--ink);
+    line-height: 1.6;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.summary-chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 2px 2px 0 var(--ink);
+}
+.summary-chip:focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 2px;
+}
+/* The chip whose filter is on */
+.summary-chip.active {
+    border-width: 3px;
+    box-shadow: 3px 3px 0 var(--ink);
+    text-decoration: underline;
+}
+
+/* "Showing 6 goals: Money & Career  [Show all goals]" */
+.filter-info {
+    margin: 14px 0 0;
+    font-weight: bold;
+}
+.filter-info[hidden] {
+    display: none;
+}
+.show-all {
+    margin-left: 6px;
+    padding: 2px 12px;
+    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    font-size: 1.1rem;
+    color: var(--ink);
+    background-color: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    cursor: pointer;
+}
+.show-all:hover {
+    background-color: var(--yellow);
+}
+
+/* Cards hidden by a filter */
+article[hidden] {
+    display: none;
+}
+
 /* One color per category */
 .summary-chip.health-wellness {
     background-color: var(--green);
@@ -256,7 +306,8 @@ footer {
 
 /* Turn off the hover motion for people who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
-    article {
+    article,
+    .summary-chip {
         transition: none;
     }
 }
